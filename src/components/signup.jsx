@@ -9,7 +9,7 @@ const Signup = ({ onClose }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost/tu_ruta_php/signup.php", {
+      const response = await fetch("http://localhost/php/signup.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
