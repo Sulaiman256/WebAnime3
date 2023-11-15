@@ -1,19 +1,23 @@
 // Navbar.js
-import React from "react";
+
+import React, { useState } from "react";
 import "bulma/css/bulma.min.css";
 import Signup from "./signup";
 import Login from "./login";
 
 function Navbar() {
+  const [showLogin, setShowLogin] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
+
   const handleLoginClick = () => {
-    // Lógica para mostrar el formulario de inicio de sesión o navegar a la página de inicio de sesión
-    <Login />;
+    setShowLogin(true);
+    setShowSignup(false);
     console.log("Mostrar formulario de inicio de sesión");
   };
 
   const handleSignupClick = () => {
-    // Lógica para mostrar el formulario de registro o navegar a la página de registro
-    <Signup />;
+    setShowSignup(true);
+    setShowLogin(false);
     console.log("Mostrar formulario de registro");
   };
 
@@ -71,6 +75,8 @@ function Navbar() {
           </div>
         </div>
       </div>
+      {showLogin && <Login onClose={() => setShowLogin(false)} />}
+      {showSignup && <Signup onClose={() => setShowSignup(false)} />}
     </nav>
   );
 }
