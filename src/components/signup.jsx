@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const Signup = ({ onClose }) => {
   const [name, setName] = useState("");
+  const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -9,31 +11,42 @@ const Signup = ({ onClose }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost/php/signup.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await axios.post(
+        "http://localhost/php/signup.php",
+        {
+          nombre: name,
+          apellido: lastname,
+          email: email,
+          password: password,
         },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-        }),
-      });
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data); // Maneja la respuesta según tus necesidades
+      if (response.status === 200) {
+        const data = response.data;
+        if (data.success) {
+          console.log("Registro exitoso:", data.success);
+        } else {
+          console.error("Error en el registro:", data.error);
+        }
       } else {
-        console.error("Error al registrar");
+        console.error("Respuesta no válida del servidor");
       }
     } catch (error) {
-      console.error("Error en la solicitud:", error);
+      console.error("Error en la solicitud:", error.message);
     }
 
+    // Limpiar los campos después de enviar el formulario
     setName("");
+    setLastname("");
     setEmail("");
     setPassword("");
+
+    // Cerrar el modal
     onClose();
   };
 
@@ -53,6 +66,19 @@ const Signup = ({ onClose }) => {
                   placeholder="Nombre"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+            <div className="field">
+              <label className="label">Apellido</label>
+              <div className="control">
+                <input
+                  className="input"
+                  type="text"
+                  placeholder="Apellido"
+                  value={lastname}
+                  onChange={(e) => setLastname(e.target.value)}
                   required
                 />
               </div>
