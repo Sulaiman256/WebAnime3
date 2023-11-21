@@ -30,6 +30,7 @@ const Signup = ({ onClose }) => {
         const data = response.data;
         if (data.success) {
           console.log("Registro exitoso:", data.success);
+          // Puedes manejar la creación de sesión aquí si es necesario
         } else {
           console.error("Error en el registro:", data.error);
         }

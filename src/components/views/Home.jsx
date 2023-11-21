@@ -3,7 +3,8 @@ import SearchAnime from "../SearchAnime";
 import { CardApp } from "../CardApp";
 
 export function Home() {
-  const [searchResults, setSearchResults] = React.useState(null);
+  // Estado local: 'searchResults' guarda los resultados de búsqueda, inicializado como null
+  const [searchResults, setSearchResults] = React.useState(null); // Función para manejar los resultados de la búsqueda y actualizar 'searchResults'
 
   const handleSearchResults = (results) => {
     setSearchResults(results);

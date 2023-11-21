@@ -30,7 +30,12 @@ const Login = ({ onClose }) => {
       );
 
       if (status !== 200) return;
-
+      if (data.success) {
+        sessionStorage.setItem("token", data.token);
+        console.log("Inicio de sesion exitoso");
+      } else {
+        setErrorMessage("Credenciales incorrectas");
+      }
       console.log(data);
     } catch (error) {
       console.error("Error en la solicitud:", error);
