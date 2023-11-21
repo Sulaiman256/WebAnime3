@@ -6,11 +6,17 @@ const Login = ({ onClose }) => {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  function cleanLogin() {
+    setEmail("");
+    setPassword("");
+    onClose();
+  }
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
+      const { status, data } = await axios.post(
         "http://localhost/php/login.php",
         {
           email,
@@ -23,25 +29,15 @@ const Login = ({ onClose }) => {
         }
       );
 
-      if (response.status === 200) {
-        const data = response.data;
-        if (data.success) {
-          console.log(data.message);
-          // Puedes manejar el éxito del inicio de sesión según tus necesidades
-        } else {
-          console.error(data.error);
-          setErrorMessage(data.error); // Mostrar el mensaje de error al usuario
-        }
-      } else {
-        console.error("Respuesta no válida del servidor");
-      }
+      if (status !== 200) return;
+
+      console.log(data);
     } catch (error) {
       console.error("Error en la solicitud:", error);
+      setErrorMessage(error.message); // Mostrar el mensaje de error al usuario
     }
 
-    setEmail("");
-    setPassword("");
-    onClose();
+    cleanLogin();
   };
 
   return (

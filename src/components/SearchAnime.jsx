@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "bulma/css/bulma.min.css";
 import axios from "axios";
 
 const SearchAnime = ({ onSearchResults }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState(null);
-  const [noResults, setNoResults] = useState(false);
+
+  useEffect(() => {
+    handleSearch();
+  }, [searchTerm]);
 
   const handleInputChange = (e) => {
     setSearchTerm(e.target.value);
@@ -17,23 +20,15 @@ const SearchAnime = ({ onSearchResults }) => {
         `http://localhost:80/php/search.php?searchTerm=${searchTerm}`
       );
 
-      if (status === 200) {
-        if (data.length > 0) {
-          onSearchResults(data);
-          setError(null);
-          setNoResults(false);
-        } else {
-          // Mostrar mensaje de error si no hay resultados
-          setError(null);
-          setNoResults(true);
-        }
-      } else {
-        setError("La solicitud no pudo completarse");
-        setNoResults(false);
+      if (status !== 200 || data.length === 0) {
+        setError("No hay resultados para esta busqueda!");
+        onSearchResults([]);
+        return;
       }
+      setError("");
+      onSearchResults(data);
     } catch (error) {
-      setError("Error al realizar la búsqueda");
-      setNoResults(false);
+      setError(error.message);
     }
   };
 
@@ -58,13 +53,6 @@ const SearchAnime = ({ onSearchResults }) => {
 
       {/* Mostrar mensaje de error si hay un error */}
       {error && <p className="has-text-danger">{error}</p>}
-
-      {/* Mostrar mensaje si no hay resultados */}
-      {noResults && (
-        <p className="has-text-warning">
-          No se encontraron resultados para "{searchTerm}".
-        </p>
-      )}
     </div>
   );
 };
