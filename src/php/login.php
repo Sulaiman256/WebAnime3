@@ -3,6 +3,7 @@ header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type");
 
+
 // Establecer la conexión con la base de datos
 $servername = "localhost";
 $username = "root";
