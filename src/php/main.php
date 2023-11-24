@@ -1,6 +1,6 @@
 <?php
 // Establece los encabezados CORS para permitir solicitudes desde el dominio permitido
-header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Origin:*");
 $servername = "localhost";
 $username = "root";
 $database = "webanime"; // Cambia esto al nombre de tu base de datos

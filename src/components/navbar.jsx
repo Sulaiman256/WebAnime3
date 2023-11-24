@@ -18,7 +18,7 @@ function Navbar() {
       // Si hay un token, actualizar el estado de autenticación
       setAuthenticated(true);
       console.log(authenticated); // Agregar este log para verificar el estado de autenticación
-      navigate("/", { replace: true }); // Resto del código...
+      navigate("/");
     }
   }, [navigate, authenticated]);
 
